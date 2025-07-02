@@ -4,6 +4,7 @@ use App\Http\Controllers\AttLogController;
 use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\EmployeePermitController;
 
 Route::get('/login', [LoginController::class, 'showloginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login'])->name('login.submit');
@@ -24,6 +25,13 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/attendence/{id}/edit', [AttLogController::class, 'edit'])->name('attendence.edit');
     Route::put('/attendence/{id}', [AttLogController::class, 'update'])->name('attendence.update');
     Route::delete('/attendence/{id}', [AttLogController::class, 'destroy'])->name('attendence.destroy');
+
+    Route::get('/employee-permit', [EmployeePermitController::class, 'index'])->name('employee_permit.index');
+    Route::get('/employee-permit/create', [EmployeePermitController::class, 'create'])->name('employee_permit.create');
+    Route::post('/employee-permit', [EmployeePermitController::class, 'store'])->name('employee_permit.store');
+    Route::get('/employee-permit/{id}/edit', [EmployeePermitController::class, 'edit'])->name('employee_permit.edit');
+    Route::put('/employee-permit/{id}', [EmployeePermitController::class, 'update'])->name('employee_permit.update');
+    Route::delete('/employee-permit/{id}', [EmployeePermitController::class, 'destroy'])->name('employee_permit.destroy');
 });
 
 Route::get('/', function () {
