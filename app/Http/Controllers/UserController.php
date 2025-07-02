@@ -10,6 +10,14 @@ use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
+    public function createUserInfo()
+    {
+        $user = Auth::user();
+        $userinfo = Userinfo::where('USERID', $user->id)->first();
+
+        return view('userinfo', compact('userinfo'));
+    }
+
     public function storeUserInfo(Request $request)
     {
         $user = Auth::user();
@@ -66,7 +74,7 @@ class UserController extends Controller
             'TimeZone3'        => 'nullable|integer',
             'IDCardNo'         => 'nullable|string|max:18',
             'IDCardValidTime'  => 'nullable|string|max:32',
-            'EMail'            => 'nullable|email|max:100',
+            'EMail'            => 'nullable|email|max:255|unique:users,email,' . $user->id,
             'IDCardName'       => 'nullable|string|max:30',
             'IDCardBirth'      => 'nullable|string|max:16',
             'IDCardSN'         => 'nullable|string|max:24',
@@ -84,11 +92,22 @@ class UserController extends Controller
             'Pin1'             => 'nullable|integer',
         ]);
 
+        if ($user->name !== $validated['Name']) {
+            $user->name = $validated['Name'];
+            $user->save();
+        }
+
+        if ($user->EMail !== $validated['EMail']) {
+            $user->EMail = $validated['EMail'];
+            $user->save();
+        }
+
+        $userinfoValidated = $request->except(['EMail', 'Name']);
         $userinfo = Userinfo::updateOrCreate(
             ['USERID' => $user->id],
-            array_merge($validated, ['USERID' => $user->id])
+            array_merge($userinfoValidated, ['USERID' => $user->id])
         );
 
-        return redirect()->route('profile')->with('success', 'User info saved successfully');
+        return redirect()->route('dashboard')->with('success', 'User info saved successfully');
     }
 }
