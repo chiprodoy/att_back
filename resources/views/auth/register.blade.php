@@ -1,37 +1,57 @@
-{{-- filepath: resources/views/auth/register.blade.php --}}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Register</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-100 flex items-center justify-center min-h-screen">
-    <div class="bg-white p-8 rounded shadow-md w-full max-w-md">
-        <h2 class="text-2xl font-bold mb-6 text-center">Register</h2>
-        @if(session('success'))
-            <div class="mb-4 text-green-600">{{ session('success') }}</div>
-        @endif
-        <form method="POST" action="{{ route('register.submit') }}">
-            @csrf
-            <div class="mb-4">
-                <label class="block mb-1 font-semibold">Name</label>
-                <input type="text" name="name" value="{{ old('name') }}" class="w-full border rounded px-3 py-2 focus:outline-none focus:ring @error('name') border-red-500 @enderror">
-                @error('name') <div class="text-red-500 text-sm">{{ $message }}</div> @enderror
-            </div>
-            <div class="mb-4">
-                <label class="block mb-1 font-semibold">Email</label>
-                <input type="email" name="email" value="{{ old('email') }}" class="w-full border rounded px-3 py-2 focus:outline-none focus:ring @error('email') border-red-500 @enderror">
-                @error('email') <div class="text-red-500 text-sm">{{ $message }}</div> @enderror
-            </div>
-            <div class="mb-6">
-                <label class="block mb-1 font-semibold">Password</label>
-                <input type="password" name="password" class="w-full border rounded px-3 py-2 focus:outline-none focus:ring @error('password') border-red-500 @enderror">
-                @error('password') <div class="text-red-500 text-sm">{{ $message }}</div> @enderror
-            </div>
-            <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">Register</button>
-        </form>
-        <p class="mt-4 text-center text-sm">Sudah punya akun? <a href="{{ route('login') }}" class="text-blue-600 hover:underline">Login</a></p>
+@extends('layouts.auth')
+
+@section('title', 'Register')
+
+@section('content')
+<div class="register-box" style="margin: 60px auto;">
+    <div class="card card-outline card-primary">
+        <div class="card-header text-center">
+            <a href="#" class="h1"><b>Register</b></a>
+        </div>
+        <div class="card-body">
+            <p class="login-box-msg">Register</p>
+            @if(session('success'))
+                <div class="alert alert-success">{{ session('success') }}</div>
+            @endif
+            <form method="POST" action="{{ route('register.submit') }}">
+                @csrf
+                <div class="input-group mb-3">
+                    <input type="text" name="name" value="{{ old('name') }}" class="form-control @error('name') is-invalid @enderror" placeholder="Name" required autofocus>
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-user"></span>
+                        </div>
+                    </div>
+                    @error('name') <span class="invalid-feedback d-block">{{ $message }}</span> @enderror
+                </div>
+                <div class="input-group mb-3">
+                    <input type="email" name="email" value="{{ old('email') }}" class="form-control @error('email') is-invalid @enderror" placeholder="Email" required>
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-envelope"></span>
+                        </div>
+                    </div>
+                    @error('email') <span class="invalid-feedback d-block">{{ $message }}</span> @enderror
+                </div>
+                <div class="input-group mb-3">
+                    <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" placeholder="Password" required>
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-lock"></span>
+                        </div>
+                    </div>
+                    @error('password') <span class="invalid-feedback d-block">{{ $message }}</span> @enderror
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary btn-block">Register</button>
+                    </div>
+                </div>
+            </form>
+            <p class="mb-0 mt-3 text-center">
+                Sudah punya akun? <a href="{{ route('login') }}" class="text-primary">Login</a>
+            </p>
+        </div>
     </div>
-</body>
-</html>
+</div>
+@endsection

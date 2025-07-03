@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\MCU;
 use App\Models\User;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class MCUController extends Controller

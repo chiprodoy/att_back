@@ -1,60 +1,66 @@
-{{-- filepath: resources/views/attlogs/index.blade.php --}}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Attendance Log List</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-100 min-h-screen">
-    <div class="container mx-auto py-8">
-        <div class="flex justify-between items-center mb-6">
-            <h1 class="text-2xl font-bold">Attendance Log</h1>
-            <a href="{{ route('attendence.create') }}" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Tambah Log</a>
-        </div>
+@extends('layouts.app')
+
+@section('title', 'Attendance Log List')
+
+@section('header')
+    <h1 class="m-0">Attendance Log</h1>
+@endsection
+
+@section('content')
+<div class="card">
+    <div class="card-header">
+        <a href="{{ route('attendence.create') }}" class="btn btn-primary">
+            <i class="fas fa-plus"></i> Tambah Log
+        </a>
+    </div>
+    <div class="card-body">
         @if(session('success'))
-            <div class="mb-4 text-green-600">{{ session('success') }}</div>
+            <div class="alert alert-success">{{ session('success') }}</div>
         @endif
-        <div class="bg-white rounded shadow overflow-x-auto">
-            <table class="min-w-full">
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover">
                 <thead>
                     <tr>
-                        <th class="px-4 py-2 border">#</th>
-                        <th class="px-4 py-2 border">User</th>
-                        <th class="px-4 py-2 border">Checklog Time</th>
-                        <th class="px-4 py-2 border">Shift In</th>
-                        <th class="px-4 py-2 border">Shift Out</th>
-                        <th class="px-4 py-2 border">Departement</th>
-                        <th class="px-4 py-2 border">Aksi</th>
+                        <th>#</th>
+                        <th>User</th>
+                        <th>Checklog Time</th>
+                        <th>Shift In</th>
+                        <th>Shift Out</th>
+                        <th>Departement</th>
+                        <th>Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($attlogs as $log)
                         <tr>
-                            <td class="px-4 py-2 border">{{ $loop->iteration }}</td>
-                            <td class="px-4 py-2 border">{{ $log->user->name ?? '-' }}</td>
-                            <td class="px-4 py-2 border">{{ $log->checklog_time }}</td>
-                            <td class="px-4 py-2 border">{{ $log->shift_in }}</td>
-                            <td class="px-4 py-2 border">{{ $log->shift_out }}</td>
-                            <td class="px-4 py-2 border">{{ $log->departement_name }}</td>
-                            <td class="px-4 py-2 border flex gap-2">
-                                <a href="{{ route('attendence.edit', $log->id) }}" class="bg-yellow-400 text-white px-2 py-1 rounded hover:bg-yellow-500">Edit</a>
-                                <form action="{{ route('attendence.destroy', $log->id) }}" method="POST" onsubmit="return confirm('Yakin hapus?')">
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $log->user->name ?? '-' }}</td>
+                            <td>{{ $log->checklog_time }}</td>
+                            <td>{{ $log->shift_in }}</td>
+                            <td>{{ $log->shift_out }}</td>
+                            <td>{{ $log->departement_name }}</td>
+                            <td>
+                                <a href="{{ route('attendence.edit', $log->id) }}" class="btn btn-warning btn-sm">
+                                    <i class="fas fa-edit"></i> Edit
+                                </a>
+                                <form action="{{ route('attendence.destroy', $log->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin hapus?')">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="bg-red-600 text-white px-2 py-1 rounded hover:bg-red-700">Hapus</button>
+                                    <button type="submit" class="btn btn-danger btn-sm">
+                                        <i class="fas fa-trash"></i> Hapus
+                                    </button>
                                 </form>
                             </td>
                         </tr>
                     @endforeach
                     @if($attlogs->isEmpty())
                         <tr>
-                            <td colspan="7" class="text-center py-4">Data tidak ada.</td>
+                            <td colspan="7" class="text-center">Data tidak ada.</td>
                         </tr>
                     @endif
                 </tbody>
             </table>
         </div>
     </div>
-</body>
-</html>
+</div>
+@endsection

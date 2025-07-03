@@ -19,7 +19,7 @@
     </nav>
 
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
-        <a href="#" class="brand-link">
+        <a href="/dashboard" class="brand-link">
             <span class="brand-text font-weight-light">Dashboard</span>
         </a>
         <div class="sidebar">
@@ -67,6 +67,8 @@
         </div>
     </div>
 </div>
+
+@stack('scripts')
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/js/adminlte.min.js"></script>

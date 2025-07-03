@@ -47,4 +47,14 @@ class User extends Authenticatable
     {
         return $this->hasOne(Userinfo::class, 'USERID', 'id');
     }
+
+    public function mcu()
+    {
+        return $this->hasMany(MCU::class, 'USERID', 'id');
+    }
+
+    public function attlogs()
+    {
+        return $this->hasMany(Attlogs::class, 'USERID', 'id');
+    }
 }

@@ -4,6 +4,7 @@ use App\Http\Controllers\AttLogController;
 use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MCUController;
 use App\Http\Controllers\EmployeePermitController;
 
@@ -42,9 +43,7 @@ Route::middleware(['auth', 'role:superadmin'])->group(function () {
     Route::post('/userinfo', [UserController::class, 'storeUserInfo'])->name('userinfo.store');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 Route::get('/mcu', [MCUController::class, 'index'])->name('mcu.index');
 
