@@ -15,9 +15,7 @@ Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::middleware(['auth', 'role:superadmin'])->group(function () {
 
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+
 
     Route::get('/attendence', [AttLogController::class, 'index'])->name('attendence.index');
     Route::get('/attendence/create', [AttLogController::class, 'create'])->name('attendence.create');
@@ -44,7 +42,11 @@ Route::middleware(['auth', 'role:superadmin'])->group(function () {
     Route::post('/userinfo', [UserController::class, 'storeUserInfo'])->name('userinfo.store');
 });
 
-    Route::get('/mcu', [MCUController::class, 'index'])->name('mcu.index');
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->name('dashboard');
+
+Route::get('/mcu', [MCUController::class, 'index'])->name('mcu.index');
 
 Route::get('/', function () {
     return view('welcome');

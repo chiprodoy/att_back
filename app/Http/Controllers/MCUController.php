@@ -10,11 +10,29 @@ use Illuminate\Http\Request;
 
 class MCUController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $mcu = MCU::with('user')->get();
+        $query = MCU::with('user');
 
-        return view('mcu.index', compact('mcu'));
+        if ($request->filled('nama')) {
+            $query->whereHas('user', function ($q) use ($request) {
+                $q->where('name', 'like', '%' . $request->nama . '%');
+            });
+        }
+
+        if ($request->filled('tanggal')) {
+            $query->whereDate('mcu_date', $request->tanggal);
+        }
+
+        if ($request->filled('tahun')) {
+            $query->whereYear('mcu_date', $request->tahun);
+        }
+
+        $mcu = $query->paginate(10)->withQueryString();
+
+        $years = MCU::selectRaw('YEAR(mcu_date) as year')->distinct()->pluck('year');
+
+        return view('mcu.index', compact('mcu', 'years'));
     }
 
     public function create()
