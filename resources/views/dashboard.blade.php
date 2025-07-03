@@ -1,18 +1,13 @@
-{{-- filepath: resources/views/dashboard.blade.php --}}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Dashboard</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-100 min-h-screen">
-    <nav class="bg-blue-700 p-4 text-white flex justify-between">
-        <div class="font-bold text-lg">Dashboard</div>
-        <div>
-            <a href="{{ route('logout') }}" class="hover:underline">Logout</a>
-        </div>
-    </nav>
+@extends('layouts.app')
+
+@section('title', 'Dashboard')
+
+@section('header')
+    <h1 class="m-0">Selamat datang, {{ Auth::user()->name }}!</h1>
+    <p class="mb-4">Anda berhasil login.</p>
+@endsection
+
+@section('content')
     <div class="container mx-auto mt-10">
         <div class="bg-white p-8 rounded shadow-md">
             <h1 class="text-2xl font-bold mb-4">Selamat datang, {{ Auth::user()->name }}!</h1>
@@ -25,5 +20,4 @@
             </div>
         </div>
     </div>
-</body>
-</html>
+@endsection

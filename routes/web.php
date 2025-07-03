@@ -13,7 +13,7 @@ Route::get('/register', [LoginController::class, 'showRegisterForm'])->name('reg
 Route::post('/register', [LoginController::class, 'register'])->name('register.submit');
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'role:superadmin'])->group(function () {
 
     Route::get('/dashboard', function () {
         return view('dashboard');
@@ -33,7 +33,7 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/employee-permit/{id}', [EmployeePermitController::class, 'update'])->name('employee_permit.update');
     Route::delete('/employee-permit/{id}', [EmployeePermitController::class, 'destroy'])->name('employee_permit.destroy');
 
-    Route::get('/mcu', [MCUController::class, 'index'])->name('mcu.index');
+
     Route::get('/mcu/create', [MCUController::class, 'create'])->name('mcu.create');
     Route::post('/mcu', [MCUController::class, 'store'])->name('mcu.store');
     Route::get('/mcu/{id}/edit', [MCUController::class, 'edit'])->name('mcu.edit');
@@ -43,6 +43,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/userinfo', [UserController::class, 'createUserInfo'])->name('userinfo');
     Route::post('/userinfo', [UserController::class, 'storeUserInfo'])->name('userinfo.store');
 });
+
+    Route::get('/mcu', [MCUController::class, 'index'])->name('mcu.index');
 
 Route::get('/', function () {
     return view('welcome');

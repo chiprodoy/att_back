@@ -38,8 +38,8 @@
                     <label class="block font-semibold mb-1">Gender</label>
                     <select name="Gender" id="Gender">
                         <option value="">-Pilih-</option>
-                        <option value="L" {{ old('Gender') == 'L' ? 'selected' : '' }}>Laki-Laki</option>
-                        <option value="P" {{ old('Gender') == 'P' ? 'selected' : '' }}>Perempuan</option>
+                        <option value="L" {{ old('Gender', $userinfo->Gender) == 'L' ? 'selected' : '' }}>Laki-Laki</option>
+                        <option value="P" {{ old('Gender', $userinfo->Gender) == 'P' ? 'selected' : '' }}>Perempuan</option>
                     </select>
                 </div>
                 <div>

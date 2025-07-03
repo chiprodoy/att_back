@@ -57,7 +57,7 @@ class LoginController extends Controller
             'password' => Hash::make($validated['password']),
         ]);
 
-        $user->assignRole('sdm');
+        $user->assignRole('user');
 
         return redirect()->route('login')->with('success', 'User registered successfully');
     }

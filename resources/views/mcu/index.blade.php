@@ -1,41 +1,49 @@
-{{-- filepath: resources/views/mcu/index.blade.php --}}
-<!DOCTYPE html>
-<html>
-<head>
-    <title>MCU List</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="p-8 bg-gray-100 min-h-screen">
-    <a href="{{ route('mcu.create') }}" class="bg-blue-600 text-white px-4 py-2 rounded">Tambah MCU</a>
-    @if(session('success'))
-        <div class="mb-4 text-green-600">{{ session('success') }}</div>
-    @endif
-    <table class="mt-4 w-full border">
-        <thead>
-            <tr>
-                <th class="border px-2">#</th>
-                <th class="border px-2">Tanggal MCU</th>
-                <th class="border px-2">User</th>
-                <th class="border px-2">Aksi</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($mcu as $item)
-            <tr>
-                <td class="border px-2">{{ $loop->iteration }}</td>
-                <td class="border px-2">{{ $item->mcu_date }}</td>
-                <td class="border px-2">{{ $item->user->name ?? '-' }}</td>
-                <td class="border px-2">
-                    <a href="{{ route('mcu.edit', $item->id) }}" class="text-blue-600">Edit</a>
-                    <form action="{{ route('mcu.destroy', $item->id) }}" method="POST" class="inline" onsubmit="return confirm('Yakin hapus?')">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="text-red-600 ml-2">Hapus</button>
-                    </form>
-                </td>
-            </tr>
-            @endforeach
-        </tbody>
-    </table>
-</body>
-</html>
+@extends('layouts.app')
+
+@section('title', 'Data MCU')
+
+@section('header')
+    <h1 class="m-0">Data MCU</h1>
+@endsection
+
+@section('content')
+<div class="card">
+    @role('superadmin')
+    <div class="card-header">
+        <a href="{{ route('mcu.create') }}" class="btn btn-primary"><i class="fas fa-plus"></i> Tambah MCU</a>
+    </div>
+    @endrole
+    <div class="card-body">
+        @if(session('success'))
+            <div class="alert alert-success">{{ session('success') }}</div>
+        @endif
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Tanggal MCU</th>
+                    <th>User</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($mcu as $item)
+                <tr>
+                    <td>{{ $loop->iteration }}</td>
+                    <td>{{ $item->mcu_date }}</td>
+                    <td>{{ $item->user->name ?? '-' }}</td>
+                    <td>
+                        <a href="{{ route('mcu.edit', $item->id) }}" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i> Edit</a>
+                        <form action="{{ route('mcu.destroy', $item->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin hapus?')">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Hapus</button>
+                        </form>
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+</div>
+@endsection

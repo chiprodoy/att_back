@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\MCU;
+use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
@@ -17,16 +19,18 @@ class MCUController extends Controller
 
     public function create()
     {
-        return view('mcu.create');
+        $users = User::role(['sdm', 'user'])->get();
+        $now = Carbon::now()->format('Y-m-d\TH:i');
+        return view('mcu.create', compact('users', 'now'));
     }
 
     public function store(Request $request)
     {
-       $validated = $request->validate([
-                        'mcu_date' => 'required|date',
-                    ]);
+        $validated = $request->validate([
+            'USERID' => 'required|exists:users,id',
+        ]);
 
-        $validated['USERID'] = Auth::id();
+        $validated['mcu_date'] = Carbon::now();
 
         MCU::create($validated);
 
@@ -36,8 +40,8 @@ class MCUController extends Controller
     public function edit($id)
     {
         $mcu = MCU::findOrFail($id);
-
-        return view('mcu.edit', compact('mcu'));
+        $users = User::role(['sdm', 'user'])->get();
+        return view('mcu.edit', compact('mcu', 'users'));
     }
 
     public function update(Request $request, $id)
@@ -45,10 +49,12 @@ class MCUController extends Controller
         $mcu = MCU::findOrFail($id);
 
         $validated = $request->validate([
-            'mcu_date' => 'required|date',
+            'USERID' => 'required|exists:users,id',
         ]);
 
-        $mcu->update($validated);
+        $mcu->update([
+            'USERID' => $validated['USERID'],
+        ]);
 
         return redirect()->route('mcu.index')->with('success', 'MCU updated successfully.');
     }
